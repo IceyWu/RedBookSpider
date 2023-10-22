@@ -1,0 +1,4 @@
+*.log
+.DS_Store
+datas_search/
+pojo/
