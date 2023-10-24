@@ -8,6 +8,12 @@
 稳定抓取小红书的视频、图片、评论、点赞、转发等信息。
 
 原理：利用网页登录成功后的 cookie 进行接口请求，传递对应参数获取数据。
+<p align="center">
+  <br>
+  <img width="400" src="./static/demo.png" alt="demo">
+  <br>
+  <br>
+</p>
 
 ## 依赖库 🎨
 
