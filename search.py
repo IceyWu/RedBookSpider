@@ -38,7 +38,10 @@ class Search:
                     break
         return note_ids
 
-    def handle_note_info(self, query, number, sort, note_type, need_cover=False):
+    def call_back_info(self,info):
+        print("call_back_info",info)
+
+    def handle_note_info(self, query, number, sort, note_type, need_cover=False,callback=None):
         data = get_search_data()
         data['sort'] = sort
         data['note_type'] = note_type
@@ -60,7 +63,7 @@ class Search:
             items = res['data']['items']
             for note in items:
                 index += 1
-                self.oneNote.save_one_note_info(self.oneNote.detail_url + note['id'], need_cover, '', 'datas_search',query)
+                self.oneNote.save_one_note_info(self.oneNote.detail_url + note['id'], need_cover, '', 'datas_search',query,callback=callback)
 
                 if index >= number:
                     break
@@ -76,8 +79,9 @@ class Search:
         print(f'搜索结果全部下载完成，共 {index} 个笔记')
 
 
-    def main(self, query, number, sort, note_type):
-        self.handle_note_info(query, number, sort, note_type, need_cover=True)
+    def main(self, query, number, sort, note_type,callback):
+        # callback('正在搜索...')
+        self.handle_note_info(query, number, sort, note_type, need_cover=True,callback=callback)
 
 
 if __name__ == '__main__':

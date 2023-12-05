@@ -32,7 +32,7 @@ class OneNote:
         return note
 
     # cover 是否覆盖
-    def save_one_note_info(self, url, need_cover=False, info='', dir_path='datas',keyword='keyword'):
+    def save_one_note_info(self, url, need_cover=False, info='', dir_path='datas',keyword='keyword',callback=None):
         try:
             note = self.get_one_note_info(url)
             nickname = norm_str(note.nickname)
@@ -76,6 +76,7 @@ class OneNote:
             # cs1.close()
             print(f'用户: {nickname}/{info}标题: {title} 笔记保存成功')
             print('===================================================================')
+            callback(f'用户: {nickname}/{info}标题: {title} 笔记保存成功')
            
             return note
         except:

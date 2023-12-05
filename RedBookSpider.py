@@ -10,6 +10,7 @@ class App(customtkinter.CTk):
 
     def __init__(self):
         super().__init__()
+        self.print_result_data = []
 
         self.title("小红书")
         self.geometry("700x450")
@@ -110,6 +111,15 @@ class App(customtkinter.CTk):
         self.optionmenu_num = customtkinter.CTkOptionMenu(self.home_frame, dynamic_resizing=False,
                                                             values=["5", "10", "20", "50", "100"])
         self.optionmenu_num.grid(row=2, column=2, padx=(10, 20), pady=(20, 20), sticky="nsw")
+        # 新建scrollable frame用于显示搜索结果
+        self.scrollable_frame = customtkinter.CTkScrollableFrame(self.home_frame, corner_radius=0, fg_color="transparent")
+        self.scrollable_frame.grid(row=3, column=0, columnspan=3, padx=(20, 20), pady=(20, 20), sticky="nsew")
+        # 显示搜索结果
+        self.scrollable_frame_label_title = customtkinter.CTkLabel(self.scrollable_frame, text="搜索结果",
+                                                              font=customtkinter.CTkFont(size=15, weight="bold"))
+        self.scrollable_frame_label_title.grid(row=0, column=0, padx=(20, 0), pady=(20, 20), sticky="nsw")
+
+        
 
         
 
@@ -277,8 +287,22 @@ class App(customtkinter.CTk):
         return sort_type
 
     def handleSearch(self, query, number, sort, note_type):
+        self.addNewLine("开始爬取")
         get_data = Search()
-        get_data.main(query, number, sort, note_type)
+        get_data.main(query, number, sort, note_type,callback=self.print_result)
+
+    # 叠加打印搜索结果
+    def addNewLine(self,desc):
+        self.print_result_data.append(desc)
+        self.scrollable_frame_label = customtkinter.CTkLabel(self.scrollable_frame, text=desc, font=customtkinter.CTkFont(size=15, weight="bold"))
+        self.scrollable_frame_label.grid(row=len(self.print_result_data), column=0, padx=(20, 0), pady=(5, 5), sticky="nsw")
+
+    def print_result(self,result):
+        print("搜索结果为：", result)
+        self.addNewLine(result)
+
+
+
 
     def button_function(self):
         # 获取值并打印
@@ -303,6 +327,8 @@ class App(customtkinter.CTk):
 
         thread = threading.Thread(target=self.handleSearch, args=(self.entry.get(), num, sort_type, note_type))
         thread.start()
+
+
         
 
 

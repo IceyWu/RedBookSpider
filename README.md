@@ -21,7 +21,7 @@
 
 ## 进行中 🎉
 
-- [ ] 可视化界 UI 面
+- [x] 可视化界 UI 面
 
 ## 项目代码结构 🫧
 
@@ -34,6 +34,6 @@ MediaCrawler
 ## 打包🫧
 
 ```
-pyinstaller --add-data 'static/*;static' --add-data 'assets/icons/*;assets/icons' --add-data 'assets/theme/*;assets/theme'  UI.py
-pyinstaller --add-data 'static/*;static' --add-data 'assets/icons/*;assets/icons' --add-data 'assets/theme/*;assets/theme' -w  UI.py
+pyinstaller --add-data 'static/*;static' --add-data 'assets/icons/*;assets/icons' --add-data 'assets/theme/*;assets/theme'  RedBookSpider.py
+pyinstaller --add-data 'static/*;static' --add-data 'assets/icons/*;assets/icons' --add-data 'assets/theme/*;assets/theme' -w  RedBookSpider.py
 ```
