@@ -2,6 +2,7 @@ import customtkinter
 import os
 from PIL import Image
 from search import Search
+import threading
 
 
 class App(customtkinter.CTk):
@@ -173,6 +174,10 @@ class App(customtkinter.CTk):
             sort_type = "general"
         return sort_type
 
+    def handleSearch(self, query, number, sort, note_type):
+        get_data = Search()
+        get_data.main(query, number, sort, note_type)
+
     def button_function(self):
         # 获取值并打印
         print("搜索内容为：", self.entry.get())
@@ -194,8 +199,8 @@ class App(customtkinter.CTk):
             return
 
 
-        get_data = Search()
-        get_data.main(self.entry.get(), num, sort_type, note_type)
+        thread = threading.Thread(target=self.handleSearch, args=(self.entry.get(), num, sort_type, note_type))
+        thread.start()
         
 
 
