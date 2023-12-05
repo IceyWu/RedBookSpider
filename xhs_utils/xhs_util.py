@@ -8,8 +8,9 @@ from pojo.note import Note_Detail
 from pojo.user import User_Detail
 from tqdm import tqdm
 
-# js = execjs.compile(open(r'_internal/static/info.js', 'r', encoding='utf-8').read())
+# js = execjs.compile(open(r'./static/info.js', 'r', encoding='utf-8').read())
 theme_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../static/info.js")
+print(theme_path)
 js = execjs.compile(open(theme_path, 'r', encoding='utf-8').read())
 
 def decodedUniChars(url):
@@ -258,10 +259,11 @@ def check_cookies():
     params = get_params()
     headers = get_headers()
     try:
-        if not os.path.exists("../static/cookies.txt"):
+        cookies_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../static/cookies.txt")
+        if not os.path.exists(cookies_path):
             raise Exception("获取cookie")
-        test_user_id = '5ad2ede14eacab146f865fe9'
-        with open("../static/cookies.txt", "r", encoding="utf-8") as f:
+        test_user_id = '59e46bda4eacab0b31ada6df'
+        with open(cookies_path, "r", encoding="utf-8") as f:
             cookies_obj = f.read()
         cookies_local = eval(cookies_obj)
         params['user_id'] = test_user_id
