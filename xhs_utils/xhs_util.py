@@ -10,6 +10,7 @@ from tqdm import tqdm
 
 # js = execjs.compile(open(r'./static/info.js', 'r', encoding='utf-8').read())
 theme_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../static/info.js")
+cookies_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../static/cookies.txt")
 print(theme_path)
 js = execjs.compile(open(theme_path, 'r', encoding='utf-8').read())
 
@@ -187,16 +188,41 @@ def handle_note_info(data):
     return note_detail
 
 def get_cookies():
-    return {
-        "xsecappid": "",
-        "a1": "",
-        "webId": "",
-        "gid": "",
-        "webBuild": "3.3.4",
-        "web_session": "",
-        "websectiga": "",
-        "sec_poison_id": ""
-    }
+    #  return {
+    #     "xsecappid": "",
+    #     "a1": "",
+    #     "webId": "",
+    #     "gid": "",
+    #     "webBuild": "3.3.4",
+    #     "web_session": "",
+    #     "websectiga": "",
+    #     "sec_poison_id": ""
+    # }
+    
+    if not os.path.exists(cookies_path):
+        raise Exception("获取cookie")
+    with open(cookies_path, "r", encoding="utf-8") as f:
+        cookies_obj = f.read()
+    
+    cookies_local = eval(cookies_obj)
+    print(cookies_local)
+    return cookies_local
+
+def set_cookies(sec_poison_id,gid,a1,websectiga,webId,web_session,xsecappid,webBuild):
+    with open(cookies_path, "w", encoding="utf-8") as f:
+        f.write(f'''{{
+        "sec_poison_id": "{sec_poison_id}",
+        "gid": "{gid}",
+        "a1": "{a1}",
+        "websectiga": "{websectiga}",
+        "webId": "{webId}",
+        "web_session": "{web_session}",
+        "xsecappid": "{xsecappid}",
+        "webBuild": "{webBuild}"
+        }}''')
+    print("cookie保存成功")
+    return get_cookies()
+
 
 def get_home_headers():
     return {
@@ -259,7 +285,6 @@ def check_cookies():
     params = get_params()
     headers = get_headers()
     try:
-        cookies_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../static/cookies.txt")
         if not os.path.exists(cookies_path):
             raise Exception("获取cookie")
         test_user_id = '59e46bda4eacab0b31ada6df'

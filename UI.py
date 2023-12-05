@@ -2,6 +2,7 @@ import customtkinter
 import os
 from PIL import Image
 from search import Search
+from xhs_utils.xhs_util import get_cookies, set_cookies
 import threading
 
 
@@ -64,7 +65,7 @@ class App(customtkinter.CTk):
         self.home_button.grid(row=1, column=0, sticky="ew")
 
         self.frame_2_button = customtkinter.CTkButton(self.navigation_frame, corner_radius=0, height=40,
-                                                      border_spacing=10, text="根据个人",
+                                                      border_spacing=10, text="cookies设置",
                                                       fg_color="transparent", text_color=("gray10", "gray90"),
                                                       hover_color=("gray70", "gray30"),
                                                       image=self.chat_image, anchor="w",
@@ -108,10 +109,71 @@ class App(customtkinter.CTk):
         # 获取的数量（5，10，20，50，100），默认5
         self.optionmenu_num = customtkinter.CTkOptionMenu(self.home_frame, dynamic_resizing=False,
                                                             values=["5", "10", "20", "50", "100"])
-        self.optionmenu_num.grid(row=2, column=2, padx=(10, 0), pady=(20, 20), sticky="nsw")
+        self.optionmenu_num.grid(row=2, column=2, padx=(10, 20), pady=(20, 20), sticky="nsw")
+
+        
 
         # create second frame
-        self.second_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
+        self.cookies_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
+        # 显示cookies信息
+        self.cookies_frame_label_title = customtkinter.CTkLabel(self.cookies_frame, text="cookies信息",
+                                                           font=customtkinter.CTkFont(size=15, weight="bold"))
+        self.cookies_frame_label_title.grid(row=0, column=0, padx=(20, 0), pady=(20, 20), sticky="nsw")
+        # cookies信息-输入框-sec_poison_id
+        self.cookies_frame_label_sec_poison_id = customtkinter.CTkLabel(self.cookies_frame, text="sec_poison_id")
+        self.cookies_frame_label_sec_poison_id.grid(row=1, column=0, padx=(20, 0), pady=(5, 5), sticky="nsw")
+        self.cookies_frame_sec_poison_id = customtkinter.CTkEntry(self.cookies_frame, placeholder_text="请输入cookies的sec_poison_id",width=280)
+        self.cookies_frame_sec_poison_id.grid(row=1, column=1, columnspan=3, padx=(20, 0), pady=(5, 5), sticky="nsew")
+        # cookies信息-输入框-gid
+        self.cookies_frame_label_gid = customtkinter.CTkLabel(self.cookies_frame, text="gid")
+        self.cookies_frame_label_gid.grid(row=2, column=0, padx=(20, 0), pady=(5, 5), sticky="nsw")
+        self.cookies_frame_gid = customtkinter.CTkEntry(self.cookies_frame, placeholder_text="请输入cookies的gid",width=280)
+        self.cookies_frame_gid.grid(row=2, column=1, columnspan=3, padx=(20, 0), pady=(5, 5), sticky="nsew")
+        # cookies信息-输入框-a1
+        self.cookies_frame_label_a1 = customtkinter.CTkLabel(self.cookies_frame, text="a1")
+        self.cookies_frame_label_a1.grid(row=3, column=0, padx=(20, 0), pady=(5, 5), sticky="nsw")
+        self.cookies_frame_a1 = customtkinter.CTkEntry(self.cookies_frame, placeholder_text="请输入cookies的a1",width=280)
+        self.cookies_frame_a1.grid(row=3, column=1, columnspan=3, padx=(20, 0), pady=(5, 5), sticky="nsew")
+        # cookies信息-输入框-websectiga
+        self.cookies_frame_label_websectiga = customtkinter.CTkLabel(self.cookies_frame, text="websectiga")
+        self.cookies_frame_label_websectiga.grid(row=4, column=0, padx=(20, 0), pady=(5, 5), sticky="nsw")
+        self.cookies_frame_websectiga = customtkinter.CTkEntry(self.cookies_frame, placeholder_text="请输入cookies的websectiga",width=280)
+        self.cookies_frame_websectiga.grid(row=4, column=1, columnspan=3, padx=(20, 0), pady=(5, 5), sticky="nsew")
+        # cookies信息-输入框-webId
+        self.cookies_frame_label_webId = customtkinter.CTkLabel(self.cookies_frame, text="webId")
+        self.cookies_frame_label_webId.grid(row=5, column=0, padx=(20, 0), pady=(5, 5), sticky="nsw")
+        self.cookies_frame_webId = customtkinter.CTkEntry(self.cookies_frame, placeholder_text="请输入cookies的webId",width=280)
+        self.cookies_frame_webId.grid(row=5, column=1, columnspan=3, padx=(20, 0), pady=(5, 5), sticky="nsew")
+        # cookies信息-输入框-web_session
+        self.cookies_frame_label_web_session = customtkinter.CTkLabel(self.cookies_frame, text="web_session")
+        self.cookies_frame_label_web_session.grid(row=6, column=0, padx=(20, 0), pady=(5, 5), sticky="nsw")
+        self.cookies_frame_web_session = customtkinter.CTkEntry(self.cookies_frame, placeholder_text="请输入cookies的web_session",width=280)
+        self.cookies_frame_web_session.grid(row=6, column=1, columnspan=3, padx=(20, 0), pady=(5, 5), sticky="nsew")
+        # cookies信息-输入框-xsecappid
+        self.cookies_frame_label_xsecappid = customtkinter.CTkLabel(self.cookies_frame, text="xsecappid")
+        self.cookies_frame_label_xsecappid.grid(row=7, column=0, padx=(20, 0), pady=(5, 5), sticky="nsw")
+        self.cookies_frame_xsecappid = customtkinter.CTkEntry(self.cookies_frame, placeholder_text="请输入cookies的xsecappid",width=280)
+        self.cookies_frame_xsecappid.grid(row=7, column=1, columnspan=3, padx=(20, 0), pady=(5, 5), sticky="nsew")
+        # cookies信息-输入框-webBuild
+        self.cookies_frame_label_webBuild = customtkinter.CTkLabel(self.cookies_frame, text="webBuild")
+        self.cookies_frame_label_webBuild.grid(row=8, column=0, padx=(20, 0), pady=(5, 5), sticky="nsw")
+        self.cookies_frame_webBuild = customtkinter.CTkEntry(self.cookies_frame, placeholder_text="请输入cookies的webBuild",width=280)
+        self.cookies_frame_webBuild.grid(row=8, column=1, columnspan=3, padx=(20, 0), pady=(5, 5), sticky="nsew")
+        # 修改cookies按钮
+        self.cookies_frame_button_1 = customtkinter.CTkButton(self.cookies_frame, text="修改cookies",width=20,
+         fg_color="transparent",
+         image=self.image_icon_search,
+                                                           command=self.change_cookies_function)
+        self.cookies_frame_button_1.grid(row=9, column=0, columnspan=4, padx=(20, 0), pady=(20, 20), sticky="nsew")
+
+        
+
+
+
+
+
+
+
 
         # create third frame
         self.third_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
@@ -119,10 +181,47 @@ class App(customtkinter.CTk):
         # select default frame
         self.select_frame_by_name("home")
 
+        # set default values
+        self.cookiesInfo = get_cookies()
+        self.cookies_frame_sec_poison_id.insert(0, self.cookiesInfo['sec_poison_id'])
+        self.cookies_frame_gid.insert(0, self.cookiesInfo['gid'])
+        self.cookies_frame_a1.insert(0, self.cookiesInfo['a1'])
+        self.cookies_frame_websectiga.insert(0, self.cookiesInfo['websectiga'])
+        self.cookies_frame_webId.insert(0, self.cookiesInfo['webId'])
+        self.cookies_frame_web_session.insert(0, self.cookiesInfo['web_session'])
+        self.cookies_frame_xsecappid.insert(0, self.cookiesInfo['xsecappid'])
+        self.cookies_frame_webBuild.insert(0, self.cookiesInfo['webBuild'])
+        print(self.cookiesInfo)
+    
+    def change_cookies_function(self):
+        # 将值写入cookies
+        set_cookies(self.cookies_frame_sec_poison_id.get(), self.cookies_frame_gid.get(), self.cookies_frame_a1.get(), self.cookies_frame_websectiga.get(), self.cookies_frame_webId.get(), self.cookies_frame_web_session.get(), self.cookies_frame_xsecappid.get(), self.cookies_frame_webBuild.get())
+        # # 重新获取cookies
+        self.cookiesInfo = get_cookies()
+        self.cookies_frame_sec_poison_id.delete(0, 'end')
+        self.cookies_frame_gid.delete(0, 'end')
+        self.cookies_frame_a1.delete(0, 'end')
+        self.cookies_frame_websectiga.delete(0, 'end')
+        self.cookies_frame_webId.delete(0, 'end')
+        self.cookies_frame_web_session.delete(0, 'end')
+        self.cookies_frame_xsecappid.delete(0, 'end')
+        self.cookies_frame_webBuild.delete(0, 'end')
+        self.cookies_frame_sec_poison_id.insert(0, self.cookiesInfo['sec_poison_id'])
+        self.cookies_frame_gid.insert(0, self.cookiesInfo['gid'])
+        self.cookies_frame_a1.insert(0, self.cookiesInfo['a1'])
+        self.cookies_frame_websectiga.insert(0, self.cookiesInfo['websectiga'])
+        self.cookies_frame_webId.insert(0, self.cookiesInfo['webId'])
+        self.cookies_frame_web_session.insert(0, self.cookiesInfo['web_session'])
+        self.cookies_frame_xsecappid.insert(0, self.cookiesInfo['xsecappid'])
+        self.cookies_frame_webBuild.insert(0, self.cookiesInfo['webBuild'])
+        print(self.cookiesInfo)
+
+
+
     def select_frame_by_name(self, name):
         # set button color for selected button
         self.home_button.configure(fg_color=("gray75", "gray25") if name == "根据搜索爬取" else "transparent")
-        self.frame_2_button.configure(fg_color=("gray75", "gray25") if name == "根据个人" else "transparent")
+        self.frame_2_button.configure(fg_color=("gray75", "gray25") if name == "cookies设置" else "transparent")
         self.frame_3_button.configure(fg_color=("gray75", "gray25") if name == "根据热度" else "transparent")
 
         # show selected frame
@@ -131,9 +230,9 @@ class App(customtkinter.CTk):
         else:
             self.home_frame.grid_forget()
         if name == "frame_2":
-            self.second_frame.grid(row=0, column=1, sticky="nsew")
+            self.cookies_frame.grid(row=0, column=1, sticky="nsew")
         else:
-            self.second_frame.grid_forget()
+            self.cookies_frame.grid_forget()
         if name == "frame_3":
             self.third_frame.grid(row=0, column=1, sticky="nsew")
         else:
