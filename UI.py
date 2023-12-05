@@ -14,7 +14,10 @@ class App(customtkinter.CTk):
         self.geometry("700x450")
 
         # 颜色配置
-        customtkinter.set_default_color_theme("assets/theme/theme.json")
+        # customtkinter.set_default_color_theme("_internal/assets/theme/theme.json")
+        # 优化一下路径
+        theme_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "assets/theme/theme.json")
+        customtkinter.set_default_color_theme(theme_path)
 
         # set grid layout 1x2
         self.grid_rowconfigure(0, weight=1)

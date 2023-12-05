@@ -30,3 +30,10 @@ MediaCrawler
 ├── assets                # 静态资源文件
 └── UI.py                 # UI界面
 ```
+
+## 打包🫧
+
+```
+pyinstaller --add-data 'static/*;static' --add-data 'assets/icons/*;assets/icons' --add-data 'assets/theme/*;assets/theme'  UI.py
+pyinstaller --add-data 'static/*;static' --add-data 'assets/icons/*;assets/icons' --add-data 'assets/theme/*;assets/theme' -w  UI.py
+```

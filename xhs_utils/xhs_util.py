@@ -8,7 +8,10 @@ from pojo.note import Note_Detail
 from pojo.user import User_Detail
 from tqdm import tqdm
 
-js = execjs.compile(open(r'./static/info.js', 'r', encoding='utf-8').read())
+# js = execjs.compile(open(r'_internal/static/info.js', 'r', encoding='utf-8').read())
+theme_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../static/info.js")
+js = execjs.compile(open(theme_path, 'r', encoding='utf-8').read())
+
 def decodedUniChars(url):
     decodedUniChars = url.encode('utf-8').decode("unicode_escape")
     return decodedUniChars
@@ -255,10 +258,10 @@ def check_cookies():
     params = get_params()
     headers = get_headers()
     try:
-        if not os.path.exists("./static/cookies.txt"):
+        if not os.path.exists("../static/cookies.txt"):
             raise Exception("获取cookie")
         test_user_id = '5ad2ede14eacab146f865fe9'
-        with open("./static/cookies.txt", "r", encoding="utf-8") as f:
+        with open("../static/cookies.txt", "r", encoding="utf-8") as f:
             cookies_obj = f.read()
         cookies_local = eval(cookies_obj)
         params['user_id'] = test_user_id
@@ -281,3 +284,9 @@ def check_cookies():
     except:
         print("cookie失效，请手动更改cookies.txt文件")
         sys.exit(1)
+
+# pyinstaller --add-data 'static/*;static'  UI.py
+# 加上assets文件夹下的所有文件
+# pyinstaller --add-data 'static/*;static' --add-data 'assets/*;assets'  UI.py
+# 优化一下，assets文件夹下有子文件夹（icons,theme），保留文件夹结构
+# pyinstaller --add-data 'static/*;static' --add-data 'assets/icons/*;assets/icons' --add-data 'assets/theme/*;assets/theme'  UI.py
